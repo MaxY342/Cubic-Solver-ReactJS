@@ -10,11 +10,13 @@ export const App = () => {
   const [b, setB] = useState("");
   const [c, setC] = useState("");
   const [d, setD] = useState("");
-  type Equation = {
-    a: number;
-    b: number;
-    c: number;
-    d: number;
+
+  type Equation = { 
+    a: number; 
+    b: number; 
+    c: number; 
+    d: number 
+    equation: string;
   };
   const [savedEquations, setSavedEquations] = useState<Equation[]>([]);
 
@@ -29,12 +31,9 @@ export const App = () => {
       const q =
         (2 * bNum ** 3 - 9 * aNum * bNum * cNum + 27 * aNum ** 2 * dNum) /
         (27 * aNum ** 3);
-      const discriminant = q * q / 4 + (p * p * p) / 27;
+      const discriminant = (q * q) / 4 + (p * p * p) / 27;
       const eps = 1e-10;
 
-      let root1: number | undefined;
-      let root2: number | undefined;
-      let root3: number | undefined;
       let firstRoot = "";
       let firstRootY = "";
       let secondRoot = "";
@@ -43,17 +42,23 @@ export const App = () => {
       let thirdRootY = "";
 
       const equation = `
-        ${aNum}x³ ${bNum >= 0 ? "+" : "-"} ${Math.abs(bNum)}x²
-        ${cNum >= 0 ? "+" : "-"} ${Math.abs(cNum)}x
-        ${dNum >= 0 ? "+" : "-"} ${Math.abs(dNum)}
-      `;
+        ${aNum == 0 ? "" : String(aNum) + "x\u00b3"} 
+        ${bNum == 0 ? "" : bNum < 0 ? "- " + String(Math.abs(bNum)) + "x\u00b2" : "+ " + String(Math.abs(bNum)) + "x\u00b2"} 
+        ${cNum == 0 ? "" : cNum < 0 ? "- " + String(Math.abs(cNum)) + "x" : "+ " + String(Math.abs(cNum)) + "x"} 
+        ${dNum == 0 ? "" : dNum < 0 ? "- " + String(Math.abs(dNum)) : "+ " + String(Math.abs(dNum))}`;
 
       if (discriminant < -eps) {
-        const theta = (1 / 3) * Math.acos(-q / (2 * Math.sqrt(-(p * p * p) / 27)));
-        root1 = 2 * Math.sqrt(-p / 3) * Math.cos(theta) - bNum / (3 * aNum);
-        root2 = 2 * Math.sqrt(-p / 3) * Math.cos(theta + (2 * Math.PI) / 3) - bNum / (3 * aNum);
-        root3 = 2 * Math.sqrt(-p / 3) * Math.cos(theta + (4 * Math.PI) / 3) - bNum / (3 * aNum);
-
+        const theta =
+          (1 / 3) *
+          Math.acos(-q / (2 * Math.sqrt(-(p * p * p) / 27)));
+        const root1 =
+          2 * Math.sqrt(-p / 3) * Math.cos(theta) - bNum / (3 * aNum);
+        const root2 =
+          2 * Math.sqrt(-p / 3) * Math.cos(theta + (2 * Math.PI) / 3) -
+          bNum / (3 * aNum);
+        const root3 =
+          2 * Math.sqrt(-p / 3) * Math.cos(theta + (4 * Math.PI) / 3) -
+          bNum / (3 * aNum);
         firstRoot = root1.toFixed(2);
         firstRootY = "0";
         secondRoot = root2.toFixed(2);
@@ -63,8 +68,7 @@ export const App = () => {
       } else if (discriminant > eps) {
         const u = Math.cbrt(-q / 2 + Math.sqrt(discriminant));
         const v = Math.cbrt(-q / 2 - Math.sqrt(discriminant));
-        root1 = u + v - bNum / (3 * aNum);
-
+        const root1 = u + v - bNum / (3 * aNum);
         firstRoot = root1.toFixed(2);
         firstRootY = "0";
         secondRoot = "No real root";
@@ -73,19 +77,17 @@ export const App = () => {
         thirdRootY = "Imaginary";
       } else {
         if (p === 0 && q === 0) {
-          root1 = root2 = root3 = -bNum / (3 * aNum);
-
+          const root1 = -bNum / (3 * aNum);
           firstRoot = root1.toFixed(2);
           firstRootY = "0";
-          secondRoot = root2.toFixed(2);
+          secondRoot = root1.toFixed(2);
           secondRootY = "0";
-          thirdRoot = root3.toFixed(2);
+          thirdRoot = root1.toFixed(2);
           thirdRootY = "0";
         } else {
           const u = Math.cbrt(-q / 2);
-          root1 = 2 * u - bNum / (3 * aNum);
-          root2 = -u - bNum / (3 * aNum);
-
+          const root1 = 2 * u - bNum / (3 * aNum);
+          const root2 = -u - bNum / (3 * aNum);
           firstRoot = root1.toFixed(2);
           firstRootY = "0";
           secondRoot = root2.toFixed(2);
@@ -115,19 +117,92 @@ export const App = () => {
   }, [a, b, c, d]);
 
   const saveEquation = () => {
-    if (computed?.equation) {
-      setSavedEquations((prev) => [...prev, { a: computed.aNum, b: computed.bNum, c: computed.cNum, d: computed.dNum }]);
+    if (computed) {
+      const newEquation: Equation = {
+        a: computed.aNum,
+        b: computed.bNum,
+        c: computed.cNum,
+        d: computed.dNum,
+        equation: computed.equation,
+      };
+      if (savedEquations.some((eq) => eq.equation === newEquation.equation)) return;
+      setSavedEquations((prev) => [
+        ...prev,
+        newEquation,
+      ]);
     }
-  }
+  };
+
+  const discTag = computed ?
+    computed.discriminant > 1e-10 ?
+      "Δ > 0 — one real root, two complex conjugate roots"
+      : computed.discriminant < -1e-10 ?
+      "Δ < 0 — three distinct real roots"
+      : "Δ = 0 — repeated roots"
+    : null;
 
   return (
-    <div>
-      <h1>Cubic Calculator</h1>
-      <CubicInput a={a} b={b} c={c} d={d} setA={setA} setB={setB} setC={setC} setD={setD} saveEquation={saveEquation} />
-      <CubicEquation equation={computed?.equation} />
-      <CubicTable computed={computed} />
-      <CubicGraph computed={computed} />
-      <CubicHistory savedEquations={savedEquations} setA={setA} setB={setB} setC={setC} setD={setD} />
+    <div
+      className="min-h-screen bg-zinc-950 text-white"
+      style={{ fontFamily: "'DM Mono', monospace" }}
+    >
+      <div className="max-w-6xl mx-auto px-5 py-8">
+        <div className="mb-5 flex items-baseline gap-4 justify-center">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
+            Cubic Solver
+          </h1>
+        </div>
+
+        <CubicInput
+          a={a} b={b} c={c} d={d}
+          setA={setA} setB={setB} setC={setC} setD={setD}
+          saveEquation={saveEquation}
+        />
+
+        {/* Landscape body */}
+        <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-5 items-start">
+
+          {/* Left column */}
+          <div className="flex flex-col gap-4">
+            <CubicEquation equation={computed?.equation} />
+            <CubicTable computed={computed} />
+            <CubicHistory
+              savedEquations={savedEquations}
+              setA={setA} setB={setB} setC={setC} setD={setD}
+            />
+          </div>
+
+          {/* Right column - Graph */}
+          <div className="flex flex-col gap-4">
+            <div className="bg-zinc-900/70 border border-zinc-800 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-bold tracking-widest uppercase text-zinc-600">
+                  Graph
+                </p>
+                <div className="flex gap-4 font-mono text-xs text-zinc-600">
+                  <span>
+                    <span className="inline-block w-3 h-0.5 bg-red-500 mr-1.5 align-middle rounded" />
+                    f(x)
+                  </span>
+                  <span>
+                    <span className="inline-block w-2 h-2 rounded-full bg-white mr-1.5 align-middle" />
+                    roots
+                  </span>
+                </div>
+              </div>
+              <CubicGraph computed={computed} />
+            </div>
+
+            {discTag && (
+              <div className={`rounded-lg border px-4 py-2.5 font-mono text-xs border-red-900/60 bg-red-950/20 text-red-400/80`}>
+                {discTag}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');`}</style>
     </div>
   );
 };
