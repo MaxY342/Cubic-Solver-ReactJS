@@ -1,5 +1,6 @@
+import { type Equation } from "../types";
 interface CubicHistoryProps {
-  savedEquations: any[];
+  savedEquations: Equation[];
   setA: (val: string) => void;
   setB: (val: string) => void;
   setC: (val: string) => void;
@@ -7,7 +8,7 @@ interface CubicHistoryProps {
 }
 
 export const CubicHistory = ({ savedEquations, setA, setB, setC, setD }: CubicHistoryProps) => {
-  const handleClick = (eq: any) => {
+  const handleClick = (eq: Equation) => {
     setA(String(eq.a));
     setB(String(eq.b));
     setC(String(eq.c));

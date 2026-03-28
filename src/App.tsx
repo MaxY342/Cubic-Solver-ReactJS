@@ -4,20 +4,13 @@ import { CubicEquation } from "./components/CubicEquation";
 import { CubicTable } from "./components/CubicTable";
 import { CubicGraph } from "./components/CubicGraph";
 import { CubicHistory } from "./components/CubicHistory";
+import { type Equation } from "./types";
 
 export const App = () => {
   const [a, setA] = useState("");
   const [b, setB] = useState("");
   const [c, setC] = useState("");
   const [d, setD] = useState("");
-
-  type Equation = { 
-    a: number; 
-    b: number; 
-    c: number; 
-    d: number 
-    equation: string;
-  };
   const [savedEquations, setSavedEquations] = useState<Equation[]>([]);
 
   const computed = useMemo(() => {
