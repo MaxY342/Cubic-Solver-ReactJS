@@ -90,6 +90,20 @@ export const App = () => {
         }
       }
 
+      // Calculate max and min values for the graph
+      const derivativeA = 3 * aNum;
+      const derivativeB = 2 * bNum;
+      const derivativeC = cNum;
+      const discriminantDerivative =
+        derivativeB * derivativeB - 4 * derivativeA * derivativeC;
+      const criticalPoints: number[] = [];
+      if (discriminantDerivative >= 0) {
+        const sqrtDiscDeriv = Math.sqrt(discriminantDerivative);
+        const crit1 = (-derivativeB + sqrtDiscDeriv) / (2 * derivativeA);
+        const crit2 = (-derivativeB - sqrtDiscDeriv) / (2 * derivativeA);
+        criticalPoints.push(crit1, crit2);
+      }
+
       return {
         aNum,
         bNum,
