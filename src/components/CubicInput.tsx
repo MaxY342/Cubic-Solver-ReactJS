@@ -10,7 +10,17 @@ interface CubicInputProps {
   saveEquation: () => void;
 }
 
-export const CubicInput = ({ a, b, c, d, setA, setB, setC, setD, saveEquation }: CubicInputProps) => {
+export const CubicInput = ({
+  a,
+  b,
+  c,
+  d,
+  setA,
+  setB,
+  setC,
+  setD,
+  saveEquation,
+}: CubicInputProps) => {
   const fields = [
     { label: "a", value: a, set: setA, warn: a === "0" || a === "" },
     { label: "b", value: b, set: setB },
@@ -27,7 +37,10 @@ export const CubicInput = ({ a, b, c, d, setA, setB, setC, setD, saveEquation }:
         <div className="flex items-end gap-4">
           <div className="flex flex-col gap-3 flex-1 flex-wrap md:flex-row">
             {fields.map(({ label, value, set, warn }) => (
-              <div key={label} className="flex flex-col gap-1 flex-1 min-w-[70px]">
+              <div
+                key={label}
+                className="flex flex-col gap-1 flex-1 min-w-[70px]"
+              >
                 <label className="text-xs font-bold tracking-widest uppercase text-red-400">
                   {label}
                 </label>
@@ -47,7 +60,9 @@ export const CubicInput = ({ a, b, c, d, setA, setB, setC, setD, saveEquation }:
                   `}
                 />
                 {label === "a" && warn && (
-                  <p className="text-xs text-red-500 font-mono uppercase">a ≠ 0</p>
+                  <p className="text-xs text-red-500 font-mono uppercase">
+                    a ≠ 0
+                  </p>
                 )}
               </div>
             ))}

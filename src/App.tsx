@@ -42,8 +42,7 @@ export const App = () => {
 
       if (discriminant < -eps) {
         const theta =
-          (1 / 3) *
-          Math.acos(-q / (2 * Math.sqrt(-(p * p * p) / 27)));
+          (1 / 3) * Math.acos(-q / (2 * Math.sqrt(-(p * p * p) / 27)));
         const root1 =
           2 * Math.sqrt(-p / 3) * Math.cos(theta) - bNum / (3 * aNum);
         const root2 =
@@ -94,7 +93,8 @@ export const App = () => {
       const derivativeA = 3 * aNum;
       const derivativeB = 2 * bNum;
       const derivativeC = cNum;
-      const discriminantDerivative = derivativeB * derivativeB - 4 * derivativeA * derivativeC;
+      const discriminantDerivative =
+        derivativeB * derivativeB - 4 * derivativeA * derivativeC;
       const criticalx: number[] = [];
       if (discriminantDerivative >= 0) {
         const sqrtDiscDeriv = Math.sqrt(discriminantDerivative);
@@ -135,20 +135,18 @@ export const App = () => {
         d: computed.dNum,
         equation: computed.equation,
       };
-      if (savedEquations.some((eq) => eq.equation === newEquation.equation)) return;
-      setSavedEquations((prev) => [
-        ...prev,
-        newEquation,
-      ]);
+      if (savedEquations.some((eq) => eq.equation === newEquation.equation))
+        return;
+      setSavedEquations((prev) => [...prev, newEquation]);
     }
   };
 
-  const discTag = computed ?
-    computed.discriminant > 1e-10 ?
-      "Δ > 0 — one real root, two complex conjugate roots"
-      : computed.discriminant < -1e-10 ?
-      "Δ < 0 — three distinct real roots"
-      : "Δ = 0 — one real root, one repeated real root"
+  const discTag = computed
+    ? computed.discriminant > 1e-10
+      ? "Δ > 0 — one real root, two complex conjugate roots"
+      : computed.discriminant < -1e-10
+        ? "Δ < 0 — three distinct real roots"
+        : "Δ = 0 — one real root, one repeated real root"
     : null;
 
   return (
@@ -164,21 +162,29 @@ export const App = () => {
         </div>
 
         <CubicInput
-          a={a} b={b} c={c} d={d}
-          setA={setA} setB={setB} setC={setC} setD={setD}
+          a={a}
+          b={b}
+          c={c}
+          d={d}
+          setA={setA}
+          setB={setB}
+          setC={setC}
+          setD={setD}
           saveEquation={saveEquation}
         />
 
         {/* Landscape body */}
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-5 items-start">
-
           {/* Left column */}
           <div className="flex flex-col gap-4">
             <CubicEquation equation={computed?.equation} />
             <CubicTable computed={computed} />
             <CubicHistory
               savedEquations={savedEquations}
-              setA={setA} setB={setB} setC={setC} setD={setD}
+              setA={setA}
+              setB={setB}
+              setC={setC}
+              setD={setD}
             />
           </div>
 
@@ -208,7 +214,9 @@ export const App = () => {
             </div>
 
             {discTag && (
-              <div className={`rounded-lg border px-4 py-2.5 font-mono text-xs border-red-900/60 bg-red-950/20 text-red-400/80`}>
+              <div
+                className={`rounded-lg border px-4 py-2.5 font-mono text-xs border-red-900/60 bg-red-950/20 text-red-400/80`}
+              >
                 {discTag}
               </div>
             )}

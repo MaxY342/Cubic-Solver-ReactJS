@@ -7,7 +7,13 @@ interface CubicHistoryProps {
   setD: (val: string) => void;
 }
 
-export const CubicHistory = ({ savedEquations, setA, setB, setC, setD }: CubicHistoryProps) => {
+export const CubicHistory = ({
+  savedEquations,
+  setA,
+  setB,
+  setC,
+  setD,
+}: CubicHistoryProps) => {
   const handleClick = (eq: Equation) => {
     setA(String(eq.a));
     setB(String(eq.b));

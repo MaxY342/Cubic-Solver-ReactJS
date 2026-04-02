@@ -24,14 +24,16 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
     if (!ctx) return;
     ctx.scale(dpr, dpr);
 
-    const width = size, height = size;
-    const cx = width / 2, cy = height / 2;
+    const width = size,
+      height = size;
+    const cx = width / 2,
+      cy = height / 2;
     const unit = size / 26;
 
     // Background
     ctx.fillStyle = "#09090b";
     ctx.fillRect(0, 0, width, height);
-    
+
     // Grid and axis
     ctx.fillStyle = "rgba(160,160,160,0.3)";
     ctx.font = `${Math.max(9, size * 0.022)}px monospace`;
@@ -43,7 +45,9 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
         ctx.fillText(String(13 - i), cx + 12, i * unit + 4);
       }
       ctx.beginPath();
-      ctx.strokeStyle = isAxis ? "rgba(220,220,220,0.25)" : "rgba(220,220,220,0.05)";
+      ctx.strokeStyle = isAxis
+        ? "rgba(220,220,220,0.25)"
+        : "rgba(220,220,220,0.05)";
       ctx.lineWidth = isAxis ? 1 : 0.5;
       ctx.moveTo(i * unit, 0);
       ctx.lineTo(i * unit, height);
@@ -54,20 +58,34 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
 
     if (!computed) return;
 
-    drawGraph(ctx, cx, cy, unit, computed.aNum, computed.bNum, computed.cNum, computed.dNum);
+    drawGraph(
+      ctx,
+      cx,
+      cy,
+      unit,
+      computed.aNum,
+      computed.bNum,
+      computed.cNum,
+      computed.dNum,
+    );
     computed.roots.forEach((root: any) => {
       const x = Number(root.x);
       if (!isNaN(x)) drawPoint(ctx, cx, cy, unit, x, 0, "#ffffff");
     });
     computed.criticalPoints.forEach((point: any) => {
       drawPoint(ctx, cx, cy, unit, point.x, point.y, "#ff0000");
-    })
+    });
   };
 
   const drawGraph = (
     ctx: CanvasRenderingContext2D,
-    cx: number, cy: number, unit: number,
-    a: number, b: number, c: number, d: number
+    cx: number,
+    cy: number,
+    unit: number,
+    a: number,
+    b: number,
+    c: number,
+    d: number,
   ) => {
     ctx.strokeStyle = "#f04a4a";
     ctx.lineWidth = 2;
@@ -77,16 +95,22 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
       const y = a * x ** 3 + b * x ** 2 + c * x + d;
       const px = cx + x * unit;
       const py = cy - y * unit;
-      if (!started) { ctx.moveTo(px, py); started = true; }
-      else ctx.lineTo(px, py);
+      if (!started) {
+        ctx.moveTo(px, py);
+        started = true;
+      } else ctx.lineTo(px, py);
     }
     ctx.stroke();
   };
 
   const drawPoint = (
     ctx: CanvasRenderingContext2D,
-    cx: number, cy: number, unit: number,
-    x: number, y: number, colour: string
+    cx: number,
+    cy: number,
+    unit: number,
+    x: number,
+    y: number,
+    colour: string,
   ) => {
     const px = cx + x * unit;
     const py = cy - y * unit;
