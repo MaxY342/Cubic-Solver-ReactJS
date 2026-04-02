@@ -19,13 +19,13 @@ export const CubicInput = ({ a, b, c, d, setA, setB, setC, setD, saveEquation }:
   ];
 
   return (
-    <div className="flex gap-5 bg-zinc-900/70 border border-zinc-800 rounded-xl p-5 mb-5">
+    <div className="flex flex-col gap-5 bg-zinc-900/70 border border-zinc-800 rounded-xl p-5 mb-5 md:flex-row">
       <div>
         <p className="text-xs font-bold tracking-widest uppercase text-zinc-600 mb-3">
           Coefficients
         </p>
         <div className="flex items-end gap-4">
-          <div className="flex gap-3 flex-1 flex-wrap sm:flex-nowrap">
+          <div className="flex flex-col gap-3 flex-1 flex-wrap md:flex-row">
             {fields.map(({ label, value, set, warn }) => (
               <div key={label} className="flex flex-col gap-1 flex-1 min-w-[70px]">
                 <label className="text-xs font-bold tracking-widest uppercase text-red-400">
@@ -58,7 +58,7 @@ export const CubicInput = ({ a, b, c, d, setA, setB, setC, setD, saveEquation }:
         type="button"
         onClick={saveEquation}
         className="
-           h-12 self-center px-5 py-2 rounded text-sm font-bold tracking-widest uppercase
+          h-12 self-center px-5 py-2 rounded text-sm font-bold tracking-widest uppercase
           bg-red-600 text-white cursor-pointer hover:bg-red-500
           transition-all duration-150 active:scale-95
         "

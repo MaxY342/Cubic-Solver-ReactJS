@@ -57,8 +57,11 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
     drawGraph(ctx, cx, cy, unit, computed.aNum, computed.bNum, computed.cNum, computed.dNum);
     computed.roots.forEach((root: any) => {
       const x = Number(root.x);
-      if (!isNaN(x)) drawPoint(ctx, cx, cy, unit, x, 0);
+      if (!isNaN(x)) drawPoint(ctx, cx, cy, unit, x, 0, "#ffffff");
     });
+    computed.criticalPoints.forEach((point: any) => {
+      drawPoint(ctx, cx, cy, unit, point.x, point.y, "#ff0000");
+    })
   };
 
   const drawGraph = (
@@ -66,7 +69,7 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
     cx: number, cy: number, unit: number,
     a: number, b: number, c: number, d: number
   ) => {
-    ctx.strokeStyle = "#ef4444";
+    ctx.strokeStyle = "#f04a4a";
     ctx.lineWidth = 2;
     ctx.beginPath();
     let started = false;
@@ -83,14 +86,14 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
   const drawPoint = (
     ctx: CanvasRenderingContext2D,
     cx: number, cy: number, unit: number,
-    x: number, y: number
+    x: number, y: number, colour: string
   ) => {
     const px = cx + x * unit;
     const py = cy - y * unit;
     ctx.beginPath();
     ctx.arc(px, py, 3, 0, 2 * Math.PI);
-    ctx.fillStyle = "#ffffff";
-    ctx.shadowColor = "#ffffff70";
+    ctx.fillStyle = colour;
+    ctx.shadowColor = `${colour}70`;
     ctx.shadowBlur = 8;
     ctx.fill();
     ctx.shadowBlur = 0;

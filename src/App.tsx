@@ -94,14 +94,13 @@ export const App = () => {
       const derivativeA = 3 * aNum;
       const derivativeB = 2 * bNum;
       const derivativeC = cNum;
-      const discriminantDerivative =
-        derivativeB * derivativeB - 4 * derivativeA * derivativeC;
-      const criticalPoints: number[] = [];
+      const discriminantDerivative = derivativeB * derivativeB - 4 * derivativeA * derivativeC;
+      const criticalx: number[] = [];
       if (discriminantDerivative >= 0) {
         const sqrtDiscDeriv = Math.sqrt(discriminantDerivative);
         const crit1 = (-derivativeB + sqrtDiscDeriv) / (2 * derivativeA);
         const crit2 = (-derivativeB - sqrtDiscDeriv) / (2 * derivativeA);
-        criticalPoints.push(crit1, crit2);
+        criticalx.push(crit1, crit2);
       }
 
       return {
@@ -118,6 +117,10 @@ export const App = () => {
           { x: secondRoot, y: secondRootY },
           { x: thirdRoot, y: thirdRootY },
         ],
+        criticalPoints: criticalx.map((x) => ({
+          x,
+          y: aNum * x ** 3 + bNum * x ** 2 + cNum * x + dNum,
+        })),
       };
     }
     return null;
@@ -145,7 +148,7 @@ export const App = () => {
       "Δ > 0 — one real root, two complex conjugate roots"
       : computed.discriminant < -1e-10 ?
       "Δ < 0 — three distinct real roots"
-      : "Δ = 0 — repeated roots"
+      : "Δ = 0 — one real root, one repeated real root"
     : null;
 
   return (
@@ -188,12 +191,16 @@ export const App = () => {
                 </p>
                 <div className="flex gap-4 font-mono text-xs text-zinc-600">
                   <span>
-                    <span className="inline-block w-3 h-0.5 bg-red-500 mr-1.5 align-middle rounded" />
+                    <span className="inline-block w-3 h-0.5 bg-red-400 mr-1.5 align-middle rounded" />
                     f(x)
                   </span>
                   <span>
-                    <span className="inline-block w-2 h-2 rounded-full bg-white mr-1.5 align-middle" />
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-white mr-1.5 align-middle" />
                     roots
+                  </span>
+                  <span>
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#ff0000] mr-1.5 align-middle" />
+                    critical points
                   </span>
                 </div>
               </div>
