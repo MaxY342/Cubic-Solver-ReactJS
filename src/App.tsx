@@ -190,29 +190,7 @@ export const App = () => {
 
           {/* Right column - Graph */}
           <div className="flex flex-col gap-4">
-            <div className="bg-zinc-900/70 border border-zinc-800 rounded-xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-xs font-bold tracking-widest uppercase text-zinc-600">
-                  Graph
-                </p>
-                <div className="flex gap-4 font-mono text-xs text-zinc-600">
-                  <span>
-                    <span className="inline-block w-3 h-0.5 bg-red-400 mr-1.5 align-middle rounded" />
-                    f(x)
-                  </span>
-                  <span>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-white mr-1.5 align-middle" />
-                    roots
-                  </span>
-                  <span>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#ff0000] mr-1.5 align-middle" />
-                    critical points
-                  </span>
-                </div>
-              </div>
-              <CubicGraph computed={computed} />
-            </div>
-
+            <CubicGraph computed={computed} />
             {discTag && (
               <div
                 className={`rounded-lg border px-4 py-2.5 font-mono text-xs border-red-900/60 bg-red-950/20 text-red-400/80`}
