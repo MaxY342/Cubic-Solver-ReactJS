@@ -68,12 +68,12 @@ export const CubicGraph = ({ computed }: CubicGraphProps) => {
       computed.cNum,
       computed.dNum,
     );
+    computed.criticalPoints.forEach((point: any) => {
+      drawPoint(ctx, cx, cy, unit, point.x, point.y, "#ff0000");
+    });
     computed.roots.forEach((root: any) => {
       const x = Number(root.x);
       if (!isNaN(x)) drawPoint(ctx, cx, cy, unit, x, 0, "#ffffff");
-    });
-    computed.criticalPoints.forEach((point: any) => {
-      drawPoint(ctx, cx, cy, unit, point.x, point.y, "#ff0000");
     });
   };
 
